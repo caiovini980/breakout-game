@@ -6,6 +6,8 @@
 #include <GLM/glm.hpp>
 #include <GLM/gtc/type_ptr.hpp>
 
+#include "GLValidator.h"
+
 class Shader
 {
 public:
@@ -26,9 +28,9 @@ public:
     void SetMatrix4(const char* name, const glm::mat4& matrix, bool useShader = false);
 
     // Getters
-    unsigned int GetShaderId() const { return id; }
+    unsigned int GetShaderId() const { return program; }
 
 private:
-    unsigned int id;
+    unsigned int program;
     void CheckCompileErrors(unsigned int object, const std::string& type);
 };

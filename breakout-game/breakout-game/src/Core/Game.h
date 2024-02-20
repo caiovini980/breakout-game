@@ -3,6 +3,8 @@
 #include <GLAD/glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "SpriteRenderer.h"
+
 enum class GameState
 {
     GAME_ACTIVE,
