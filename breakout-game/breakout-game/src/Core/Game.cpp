@@ -22,7 +22,8 @@ void Game::Init()
     std::cout << "Starting a brand new game...\n";
 	
 	const std::string shaderName = "sprite";
-	const std::string textureName = "face";
+	const std::string solidBlockTextureName = "block_solid";
+	const std::string blockTextureName = "block";
 	
 	const glm::mat4 projection = glm::ortho(
 		0.0f,
@@ -39,7 +40,16 @@ void Game::Init()
 	
 	Renderer = new SpriteRenderer(newShader);
 
-	ResourceManager::LoadTexture("./resources/textures/MiiSemFundo.png", true, textureName);
+	// load textures
+    ResourceManager::LoadTexture("./resources/textures/background.jpg", false, "background");
+	ResourceManager::LoadTexture("./resources/textures/block_solid.png", false, solidBlockTextureName);
+	ResourceManager::LoadTexture("./resources/textures/block.png", false, blockTextureName);
+
+	// load levels
+	GameLevel level1;
+	level1.Load("./resources/levels/level0.txt", this->width, this->height / 2);
+	this->levels.emplace_back(level1);
+	this->level = 0;
 }
 
 void Game::ProcessInput(float dt)
@@ -52,12 +62,15 @@ void Game::Update(float dt)
 
 void Game::Render()
 {
-	const std::string textureName = "face";
-	Texture2D texture = ResourceManager::GetTexture(textureName);
-	Renderer->DrawSprite(
-		texture,
-		glm::vec2(0.0f, 0.0f),
-		glm::vec2(200.0f, 300.0f),
-		0.0f,
-		glm::vec3(0.0f, 1.0f, 1.0f));
+	if (this->state == GameState::GAME_ACTIVE)
+	{
+		Texture2D backgroundTexture = ResourceManager::GetTexture("background");
+		Renderer->DrawSprite(
+			backgroundTexture,
+			glm::vec2(0.0f, 0.0f),
+			glm::vec2(this->width, this->height),
+			0.0f);
+
+		this->levels[this->level].Draw(*Renderer);
+	}
 }

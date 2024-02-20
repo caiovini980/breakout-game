@@ -1,8 +1,10 @@
 ﻿#pragma once
 
+#include <vector>
 #include <GLAD/glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "GameLevel.h"
 #include "SpriteRenderer.h"
 
 enum class GameState
@@ -28,7 +30,13 @@ public:
     void SetKeyByIndex(int index, bool value) { keys[index] = value; }
     
 private:
-    GameState state;	
+    std::vector<GameLevel> levels;
+    unsigned int level;
+    
+    GameState state;
+    
     bool keys[1024];
-    unsigned int width, height;
+    
+    unsigned int width;
+    unsigned int height;
 };
