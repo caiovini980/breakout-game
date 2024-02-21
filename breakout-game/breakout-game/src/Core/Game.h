@@ -4,6 +4,7 @@
 #include <GLAD/glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "BallObject.h"
 #include "GameLevel.h"
 #include "SpriteRenderer.h"
 
@@ -30,13 +31,23 @@ public:
     void SetKeyByIndex(int index, bool value) { keys[index] = value; }
     
 private:
+    void DoCollisions();
+    // TODO talvez de bronca esses consts
+    bool CheckCollisions(const GameObject& A, const GameObject& B) const;
+    bool CheckCollisions(const BallObject& ball, const GameObject& other) const;
+    
     // TODO: Remove this from the heap
     SpriteRenderer* Renderer;
     GameObject* Player;
+    BallObject* Ball;
 
     // players cache
     const glm::vec2 PLAYER_SIZE = glm::vec2(100.0f, 20.0f);
     const float PLAYER_VELOCITY = 500.0f;
+
+    // balls cache
+    const glm::vec2 INITIAL_BALL_VELOCITY = glm::vec2(100.0f, -50.0f);
+    const float BALL_RADIUS = 12.5f;
 
     // levels cache
     std::vector<GameLevel> levels;

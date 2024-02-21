@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
+    <ClCompile Include="src\Core\BallObject.cpp" />
     <ClCompile Include="src\Core\Game.cpp" />
     <ClCompile Include="src\Core\GameLevel.cpp" />
     <ClCompile Include="src\Core\GameObject.cpp" />
@@ -33,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h" />
+    <ClInclude Include="src\Core\BallObject.h" />
     <ClInclude Include="src\Core\Game.h" />
     <ClInclude Include="src\Core\GameLevel.h" />
     <ClInclude Include="src\Core\GameObject.h" />
@@ -48,6 +50,7 @@
     <Content Include="resources\levels\Level4.txt" />
     <Content Include="resources\shaders\sprite.frag" />
     <Content Include="resources\shaders\sprite.vs" />
+    <Content Include="resources\textures\awesomeface.png" />
     <Content Include="resources\textures\background.jpg" />
     <Content Include="resources\textures\block.png" />
     <Content Include="resources\textures\block_solid.png" />
