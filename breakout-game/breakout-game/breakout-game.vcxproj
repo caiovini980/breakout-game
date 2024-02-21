@@ -24,6 +24,7 @@
     <ClCompile Include="src\Core\Game.cpp" />
     <ClCompile Include="src\Core\GameLevel.cpp" />
     <ClCompile Include="src\Core\GameObject.cpp" />
+    <ClCompile Include="src\Core\ParticleEmitter.cpp" />
     <ClCompile Include="src\Core\SpriteRenderer.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\Utilities\ResourceManager.cpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="src\Core\Game.h" />
     <ClInclude Include="src\Core\GameLevel.h" />
     <ClInclude Include="src\Core\GameObject.h" />
+    <ClInclude Include="src\Core\ParticleEmitter.h" />
     <ClInclude Include="src\Core\SpriteRenderer.h" />
     <ClInclude Include="src\Utilities\GLValidator.h" />
     <ClInclude Include="src\Utilities\ResourceManager.h" />
@@ -48,6 +50,8 @@
     <Content Include="resources\levels\Level2.txt" />
     <Content Include="resources\levels\Level3.txt" />
     <Content Include="resources\levels\Level4.txt" />
+    <Content Include="resources\shaders\particle.frag" />
+    <Content Include="resources\shaders\particle.vs" />
     <Content Include="resources\shaders\sprite.frag" />
     <Content Include="resources\shaders\sprite.vs" />
     <Content Include="resources\textures\awesomeface.png" />
@@ -56,6 +60,7 @@
     <Content Include="resources\textures\block_solid.png" />
     <Content Include="resources\textures\MiiSemFundo.png" />
     <Content Include="resources\textures\paddle.png" />
+    <Content Include="resources\textures\particle.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

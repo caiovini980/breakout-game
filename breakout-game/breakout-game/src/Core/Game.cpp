@@ -12,11 +12,40 @@ Game::Game(unsigned width, unsigned height)
 Game::~Game()
 { }
 
+void Game::CreateShaders(const std::string& particleShaderName, const std::string& spriteShaderName, const glm::mat4 projection)
+{
+	// Load sprite shader
+	Shader spriteShader = ResourceManager::LoadShader("./resources/shaders/sprite.vs",
+		"./resources/shaders/sprite.frag", nullptr, spriteShaderName);
+	spriteShader.Use();
+	spriteShader.SetInteger("image", 0);
+	spriteShader.SetMatrix4("projection", projection);
+	
+	Renderer = std::make_shared<SpriteRenderer>(spriteShader);
+	
+	// Load particles shader
+	Shader particleShader = ResourceManager::LoadShader("./resources/shaders/particle.vs",
+	                                                    "./resources/shaders/particle.frag", nullptr, particleShaderName);
+	particleShader.Use();
+	particleShader.SetInteger("sprite", 0);
+	particleShader.SetMatrix4("projection", projection);
+
+	// load particles texture
+	std::string particleTextureName = "particle";
+	ResourceManager::LoadTexture("./resources/textures/particle.png", true, particleTextureName);
+	
+	Particles = std::make_shared<ParticleEmitter>(
+		ResourceManager::GetShader(particleShaderName),
+		ResourceManager::GetTexture(particleTextureName),
+		500);
+}
+
 void Game::Init()
 {
     std::cout << "Starting a brand new game...\n";
 	
-	const std::string shaderName = "sprite";
+	const std::string particleShaderName = "particle";
+	const std::string spriteShaderName = "sprite";
 	const std::string solidBlockTextureName = "block_solid";
 	const std::string blockTextureName = "block";
 	
@@ -27,13 +56,7 @@ void Game::Init()
 		0.0f,
 		-1.0f, 1.0f);
 	
-	Shader newShader = ResourceManager::LoadShader("./resources/shaders/sprite.vs",
-		"./resources/shaders/sprite.frag", nullptr, shaderName);
-	newShader.Use();
-	newShader.SetInteger("image", 0);
-	newShader.SetMatrix4("projection", projection);
-	
-	Renderer = std::make_shared<SpriteRenderer>(newShader);
+	CreateShaders(particleShaderName, spriteShaderName, projection);
 
 	// load textures
 	// TODO Remove string copies
@@ -157,6 +180,8 @@ void Game::Update(float deltaTime)
 		this->ResetLevel();
 		this->ResetPlayer();
 	}
+
+	Particles->Update(deltaTime, *Ball, 2, glm::vec2(Ball->radius / 2));
 }
 
 void Game::Render()
@@ -175,6 +200,9 @@ void Game::Render()
 
 		// update player visuals
 		Player->Draw(*Renderer);
+
+		// update particles visuals
+		Particles->Draw();
 
 		// update ball visuals
 		Ball->Draw(*Renderer);

@@ -6,6 +6,7 @@
 
 #include "BallObject.h"
 #include "GameLevel.h"
+#include "ParticleEmitter.h"
 #include "SpriteRenderer.h"
 
 enum class GameState
@@ -47,6 +48,7 @@ private:
     void DoCollisions();
     void ResetLevel();
     void ResetPlayer();
+    void CreateShaders(const std::string& particleShaderName, const std::string& spriteShaderName, const glm::mat4 projection);
     
     // TODO talvez de bronca esses consts
     bool CheckCollisions(const GameObject& A, const GameObject& B) const;
@@ -56,6 +58,7 @@ private:
     std::shared_ptr<SpriteRenderer> Renderer;
     std::shared_ptr<GameObject> Player;
     std::shared_ptr<BallObject> Ball;
+    std::shared_ptr<ParticleEmitter> Particles;
 
     // players cache
     const glm::vec2 PLAYER_SIZE = glm::vec2(100.0f, 20.0f);
