@@ -15,6 +15,17 @@ enum class GameState
     GAME_WIN
 };
 
+enum class Direction
+{
+    UP = 0,
+    RIGHT,
+    DOWN,
+    LEFT
+};
+
+// get collision data as a tuple
+typedef std::tuple<bool, Direction, glm::vec2> Collision;
+
 class Game
 {
 public:
@@ -31,22 +42,27 @@ public:
     void SetKeyByIndex(int index, bool value) { keys[index] = value; }
     
 private:
+    Direction VectorDirection(glm::vec2 target) const;
+    
     void DoCollisions();
+    void ResetLevel();
+    void ResetPlayer();
+    
     // TODO talvez de bronca esses consts
     bool CheckCollisions(const GameObject& A, const GameObject& B) const;
-    bool CheckCollisions(const BallObject& ball, const GameObject& other) const;
+    Collision CheckCollisions(const BallObject& ball, const GameObject& other) const;
     
     // TODO: Remove this from the heap
-    SpriteRenderer* Renderer;
-    GameObject* Player;
-    BallObject* Ball;
+    std::shared_ptr<SpriteRenderer> Renderer;
+    std::shared_ptr<GameObject> Player;
+    std::shared_ptr<BallObject> Ball;
 
     // players cache
     const glm::vec2 PLAYER_SIZE = glm::vec2(100.0f, 20.0f);
     const float PLAYER_VELOCITY = 500.0f;
 
     // balls cache
-    const glm::vec2 INITIAL_BALL_VELOCITY = glm::vec2(100.0f, -50.0f);
+    const glm::vec2 INITIAL_BALL_VELOCITY = glm::vec2(100.0f, -350.0f);
     const float BALL_RADIUS = 12.5f;
 
     // levels cache
