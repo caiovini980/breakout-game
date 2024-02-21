@@ -22,14 +22,23 @@ public:
     
     void Init();
     
-    void ProcessInput(float dt);
-    void Update(float dt);
+    void ProcessInput(float deltaTime) const;
+    void Update(float deltaTime);
     void Render();
 
     // Setters
     void SetKeyByIndex(int index, bool value) { keys[index] = value; }
     
 private:
+    // TODO: Remove this from the heap
+    SpriteRenderer* Renderer;
+    GameObject* Player;
+
+    // players cache
+    const glm::vec2 PLAYER_SIZE = glm::vec2(100.0f, 20.0f);
+    const float PLAYER_VELOCITY = 500.0f;
+
+    // levels cache
     std::vector<GameLevel> levels;
     unsigned int level;
     

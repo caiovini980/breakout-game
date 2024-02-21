@@ -42,13 +42,17 @@
     <ClInclude Include="src\Utilities\Texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="resources\levels\Level0.txt" />
+    <Content Include="resources\levels\Level1.txt" />
+    <Content Include="resources\levels\Level2.txt" />
+    <Content Include="resources\levels\Level3.txt" />
+    <Content Include="resources\levels\Level4.txt" />
     <Content Include="resources\shaders\sprite.frag" />
     <Content Include="resources\shaders\sprite.vs" />
     <Content Include="resources\textures\background.jpg" />
     <Content Include="resources\textures\block.png" />
     <Content Include="resources\textures\block_solid.png" />
     <Content Include="resources\textures\MiiSemFundo.png" />
+    <Content Include="resources\textures\paddle.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
