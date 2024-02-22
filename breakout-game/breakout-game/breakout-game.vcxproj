@@ -26,6 +26,7 @@
     <ClCompile Include="src\Core\GameObject.cpp" />
     <ClCompile Include="src\Core\ParticleEmitter.cpp" />
     <ClCompile Include="src\Core\SpriteRenderer.cpp" />
+    <ClCompile Include="src\Core\TextRenderer.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\Utilities\ResourceManager.cpp" />
     <ClCompile Include="src\Utilities\Shader.cpp" />
@@ -41,11 +42,18 @@
     <ClInclude Include="src\Core\GameObject.h" />
     <ClInclude Include="src\Core\ParticleEmitter.h" />
     <ClInclude Include="src\Core\SpriteRenderer.h" />
+    <ClInclude Include="src\Core\TextRenderer.h" />
     <ClInclude Include="src\Utilities\GLValidator.h" />
     <ClInclude Include="src\Utilities\ResourceManager.h" />
     <ClInclude Include="src\Utilities\Texture.h" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="resources\audio\bleep.mp3" />
+    <Content Include="resources\audio\bleep.wav" />
+    <Content Include="resources\audio\breakout.mp3" />
+    <Content Include="resources\audio\solid.wav" />
+    <Content Include="resources\fonts\ARCADECLASSIC.TTF" />
+    <Content Include="resources\fonts\OCRAEXT.TTF" />
     <Content Include="resources\levels\Level1.txt" />
     <Content Include="resources\levels\Level2.txt" />
     <Content Include="resources\levels\Level3.txt" />
@@ -54,6 +62,8 @@
     <Content Include="resources\shaders\particle.vs" />
     <Content Include="resources\shaders\sprite.frag" />
     <Content Include="resources\shaders\sprite.vs" />
+    <Content Include="resources\shaders\text2D.frag" />
+    <Content Include="resources\shaders\text2D.vs" />
     <Content Include="resources\textures\awesomeface.png" />
     <Content Include="resources\textures\background.jpg" />
     <Content Include="resources\textures\block.png" />
@@ -168,7 +178,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;glfw3_mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>freetype.lib;glfw3.lib;opengl32.lib;irrKlang.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

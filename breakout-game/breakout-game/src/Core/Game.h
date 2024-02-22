@@ -3,11 +3,13 @@
 #include <vector>
 #include <GLAD/glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <IRRKLANG/irrKlang.h>
 
 #include "BallObject.h"
 #include "GameLevel.h"
 #include "ParticleEmitter.h"
 #include "SpriteRenderer.h"
+#include "TextRenderer.h"
 
 enum class GameState
 {
@@ -35,12 +37,13 @@ public:
     
     void Init();
     
-    void ProcessInput(float deltaTime) const;
+    void ProcessInput(float deltaTime);
     void Update(float deltaTime);
     void Render();
 
     // Setters
     void SetKeyByIndex(int index, bool value) { keys[index] = value; }
+    void SetProcessedKeyByIndex(int index, bool value) { keysProcessed[index] = value; }
     
 private:
     Direction VectorDirection(glm::vec2 target) const;
@@ -59,10 +62,16 @@ private:
     std::shared_ptr<GameObject> Player;
     std::shared_ptr<BallObject> Ball;
     std::shared_ptr<ParticleEmitter> Particles;
+    std::shared_ptr<TextRenderer> textRenderer;
+
+    // External libraries (raw pointers)
+    irrklang::ISoundEngine* SoundEngine = irrklang::createIrrKlangDevice(); 
 
     // players cache
     const glm::vec2 PLAYER_SIZE = glm::vec2(100.0f, 20.0f);
     const float PLAYER_VELOCITY = 500.0f;
+    const unsigned int INITIAL_AMOUNT_OF_LIVES = 3;
+    unsigned int currentLives = INITIAL_AMOUNT_OF_LIVES;
 
     // balls cache
     const glm::vec2 INITIAL_BALL_VELOCITY = glm::vec2(100.0f, -350.0f);
@@ -75,6 +84,7 @@ private:
     GameState state;
     
     bool keys[1024];
+    bool keysProcessed[1024];
     
     unsigned int width;
     unsigned int height;

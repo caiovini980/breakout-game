@@ -1,16 +1,20 @@
 ﻿#include "Game.h"
 
 #include <iostream>
+#include <sstream>
+#include <windows.h>
 
 #include "../Utilities/ResourceManager.h"
 
 
 Game::Game(unsigned width, unsigned height)
-	: state(GameState::GAME_ACTIVE), keys(), width(width), height(height)
+	: state(GameState::GAME_MENU), keys(), width(width), height(height)
 { }
 
 Game::~Game()
-{ }
+{
+	delete SoundEngine;
+}
 
 void Game::CreateShaders(const std::string& particleShaderName, const std::string& spriteShaderName, const glm::mat4 projection)
 {
@@ -82,7 +86,7 @@ void Game::Init()
 	this->levels.emplace_back(level2);
 	this->levels.emplace_back(level3);
 	this->levels.emplace_back(level4);
-	this->level = 0;
+	this->level = 3;
 
 	// load player
     const std::string playerTextureName = "paddle";
@@ -99,9 +103,15 @@ void Game::Init()
 		PLAYER_SIZE.x / 2 - BALL_RADIUS,
 		-BALL_RADIUS * 2.0f);
 	Ball = std::make_shared<BallObject>(ballPosition, BALL_RADIUS, INITIAL_BALL_VELOCITY, ballTexture);
+
+	textRenderer = std::make_shared<TextRenderer>(this->width, this->height);
+	textRenderer->Load("./resources/fonts/ARCADECLASSIC.TTF", 30);
+	
+	// load background audio
+	SoundEngine->play2D("./resources/audio/breakout.mp3", true);
 }
 
-void Game::ProcessInput(float deltaTime) const
+void Game::ProcessInput(float deltaTime)
 {
 	if (this->state == GameState::GAME_ACTIVE)
 	{
@@ -168,6 +178,35 @@ void Game::ProcessInput(float deltaTime) const
 			Ball->stuck = false;
 		}
 	}
+
+	if (state == GameState::GAME_MENU)
+	{
+		if (keys[GLFW_KEY_ENTER] && !keysProcessed[GLFW_KEY_ENTER])
+		{
+			state = GameState::GAME_ACTIVE;
+			keysProcessed[GLFW_KEY_ENTER] = true;
+		}
+
+		if (keys[GLFW_KEY_W] && !keysProcessed[GLFW_KEY_W])
+		{
+			level = (level + 1) % 4;
+			keysProcessed[GLFW_KEY_W] = true;
+		}
+
+		if (keys[GLFW_KEY_S] && !keysProcessed[GLFW_KEY_S])
+		{
+			if (level > 0)
+			{
+				level--;
+			}
+			else
+			{
+				level = 3;
+			}
+
+			keysProcessed[GLFW_KEY_S] = true;
+		}
+	}
 }
 
 void Game::Update(float deltaTime)
@@ -177,7 +216,14 @@ void Game::Update(float deltaTime)
 
 	if (Ball->position.y > static_cast<float>(this->height))
 	{
-		this->ResetLevel();
+		currentLives--;
+
+		if (currentLives <= 0)
+		{
+			this->ResetLevel();
+			state = GameState::GAME_MENU;
+		}
+		
 		this->ResetPlayer();
 	}
 
@@ -186,8 +232,9 @@ void Game::Update(float deltaTime)
 
 void Game::Render()
 {
-	if (this->state == GameState::GAME_ACTIVE)
+	if (this->state == GameState::GAME_ACTIVE || state == GameState::GAME_MENU)
 	{
+		// Show background
 		Texture2D backgroundTexture = ResourceManager::GetTexture("background");
 		Renderer->DrawSprite(
 			backgroundTexture,
@@ -203,9 +250,23 @@ void Game::Render()
 
 		// update particles visuals
 		Particles->Draw();
-
+		
 		// update ball visuals
 		Ball->Draw(*Renderer);
+		
+		// Show GUI
+		std::stringstream stringStream;
+		stringStream << currentLives;
+		textRenderer->RenderText("Lives    " + stringStream.str(), 10.0f, 5.0f, 1.0f);
+	}
+
+	if (state == GameState::GAME_MENU)
+	{
+		textRenderer->RenderText("Press    ENTER    to    start",
+			250.0f, static_cast<float>(height / 2) + 20.0f, 1.0f);
+		
+        textRenderer->RenderText("Press    W    or    S    to    select    level",
+        	245.0f, static_cast<float>(height / 2) + 50.0f, 0.75f);
 	}
 }
 
@@ -249,7 +310,15 @@ void Game::DoCollisions()
 		{
 			if (!box.isSolid)
 			{
+				// load non-solid block hit audio
+				SoundEngine->play2D("./resources/audio/bleep.mp3", false);
 				box.isDestroyed = true;
+			}
+
+			if (box.isSolid)
+			{
+				// load solid block hit audio
+				SoundEngine->play2D("./resources/audio/solid.wav", false);
 			}
 
 			const Direction direction = std::get<1>(collision);
@@ -304,11 +373,16 @@ void Game::DoCollisions()
 		Ball->velocity.y = -1 * abs(Ball->velocity.y);
 
 		Ball->velocity = glm::normalize(Ball->velocity) * glm::length(oldVelocity);
+		
+		// load paddle hit audio
+		SoundEngine->play2D("./resources/audio/bleep.wav", false);
 	}
 }
 
 void Game::ResetLevel()
 {
+	currentLives = INITIAL_AMOUNT_OF_LIVES;
+	
 	switch (level)
 	{
 	case 0:

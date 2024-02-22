@@ -5,6 +5,7 @@ D:\GitHub\- TRAININGS -\OpenGL\breakout-game\breakout-game\breakout-game\src\Cor
 D:\GitHub\- TRAININGS -\OpenGL\breakout-game\breakout-game\breakout-game\src\Core\GameObject.cpp;D:\GitHub\- TRAININGS -\OpenGL\breakout-game\breakout-game\breakout-game\x64\Debug\GameObject.obj
 D:\GitHub\- TRAININGS -\OpenGL\breakout-game\breakout-game\breakout-game\src\Core\ParticleEmitter.cpp;D:\GitHub\- TRAININGS -\OpenGL\breakout-game\breakout-game\breakout-game\x64\Debug\ParticleEmitter.obj
 D:\GitHub\- TRAININGS -\OpenGL\breakout-game\breakout-game\breakout-game\src\Core\SpriteRenderer.cpp;D:\GitHub\- TRAININGS -\OpenGL\breakout-game\breakout-game\breakout-game\x64\Debug\SpriteRenderer.obj
+D:\GitHub\- TRAININGS -\OpenGL\breakout-game\breakout-game\breakout-game\src\Core\TextRenderer.cpp;D:\GitHub\- TRAININGS -\OpenGL\breakout-game\breakout-game\breakout-game\x64\Debug\TextRenderer.obj
 D:\GitHub\- TRAININGS -\OpenGL\breakout-game\breakout-game\breakout-game\src\glad.c;D:\GitHub\- TRAININGS -\OpenGL\breakout-game\breakout-game\breakout-game\x64\Debug\glad.obj
 D:\GitHub\- TRAININGS -\OpenGL\breakout-game\breakout-game\breakout-game\src\Utilities\ResourceManager.cpp;D:\GitHub\- TRAININGS -\OpenGL\breakout-game\breakout-game\breakout-game\x64\Debug\ResourceManager.obj
 D:\GitHub\- TRAININGS -\OpenGL\breakout-game\breakout-game\breakout-game\src\Utilities\Shader.cpp;D:\GitHub\- TRAININGS -\OpenGL\breakout-game\breakout-game\breakout-game\x64\Debug\Shader.obj
