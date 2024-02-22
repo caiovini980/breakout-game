@@ -86,7 +86,7 @@ void Game::Init()
 	this->levels.emplace_back(level2);
 	this->levels.emplace_back(level3);
 	this->levels.emplace_back(level4);
-	this->level = 3;
+	this->level = 0;
 
 	// load player
     const std::string playerTextureName = "paddle";
@@ -228,6 +228,14 @@ void Game::Update(float deltaTime)
 	}
 
 	Particles->Update(deltaTime, *Ball, 2, glm::vec2(Ball->radius / 2));
+
+	// check win condition
+	if (state == GameState::GAME_ACTIVE && levels[level].IsCompleted())
+	{
+		ResetLevel();
+		ResetPlayer();
+		state = GameState::GAME_WIN;
+	}
 }
 
 void Game::Render()
@@ -262,11 +270,67 @@ void Game::Render()
 
 	if (state == GameState::GAME_MENU)
 	{
-		textRenderer->RenderText("Press    ENTER    to    start",
-			250.0f, static_cast<float>(height / 2) + 20.0f, 1.0f);
+		textRenderer->RenderText("Press                          to    start",
+			250.0f,
+			static_cast<float>(height / 2) + 20.0f,
+			1.0f);
+
+		textRenderer->RenderText("ENTER",
+			345.0f,
+			static_cast<float>(height / 2) + 20.0f,
+			1.0f,
+			glm::vec3(0.8f, 0.5f, 0.0f));
 		
-        textRenderer->RenderText("Press    W    or    S    to    select    level",
-        	245.0f, static_cast<float>(height / 2) + 50.0f, 0.75f);
+        textRenderer->RenderText(" Press         or          to   select   level",
+        	245.0f,
+        	static_cast<float>(height / 2) + 50.0f,
+        	0.75f);
+
+		textRenderer->RenderText(" W              S",
+			315.0f,
+			static_cast<float>(height / 2) + 50.0f,
+			0.75f,
+			glm::vec3(0.8f, 0.5f, 0.0f));
+	}
+
+	if (state == GameState::GAME_WIN)
+	{
+		textRenderer->RenderText("CONGRATULATIONS!",
+			280.0f,
+			static_cast<float>(height / 2) - 20.0f,
+			1.0f,
+			glm::vec3(0.0f, 0.9, 0.0f));
+
+		textRenderer->RenderText("You    completed     the     level     ",
+			265.0f,
+			static_cast<float>(height / 2) + 30.0f,
+			0.7f);
+		
+		std::stringstream levelStringStream;
+		levelStringStream << level;
+		textRenderer->RenderText(levelStringStream.str(),
+			550.0f,
+			static_cast<float>(height / 2) + 26.0f,
+			1.0f,
+			glm::vec3(0.0f, 0.9, 1.0f));
+		
+		textRenderer->RenderText("Thanks     for     playing!",
+			250.0f,
+			static_cast<float>(height) - 150.0f,
+			1.0f,
+			glm::vec3(0.8f, 0.5f, 0.0f));
+		
+		textRenderer->RenderText("Press     ESC     to     close     game",
+			270.0f,
+			static_cast<float>(height) - 50.0f,
+			0.7f,
+			glm::vec3(0.0f, 0.9, 0.5f));
+
+		textRenderer->RenderText("Hope     see     you     again     soon",
+			268.0f,
+			static_cast<float>(height) - 100.0f,
+			0.7f,
+			glm::vec3(0.0f, 0.9, 0.5f));
 	}
 }
 
